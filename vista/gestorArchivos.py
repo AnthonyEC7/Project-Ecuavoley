@@ -3,6 +3,6 @@ class Archivo():
 
   def generaArchivo():
     archivo = open('encuentro.txt', 'w')
-    archivo.write('Partido 3')
+    archivo.write('NUm Partido')
     print("HOLA")
     archivo.close()
