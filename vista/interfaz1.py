@@ -11,6 +11,7 @@ def verPartidos():
 
 def agregarPartidos():
     root.iconify()
+    global ventana
     ventana = Tk()
     nombre1 = StringVar()
     nombre2 = StringVar()
@@ -40,8 +41,14 @@ def agregarPartidos():
     caja6 = Entry(ventana, textvariable=nombre6).place(x=475, y=100)
     etiqueta6 = Label(ventana, text="Monto").place(x=375, y=200)
     caja7 = Entry(ventana, textvariable=monto).place(x=475, y=200)
-    boton1 = Button(ventana, text="<-- Regresar").place(x=100, y=450)
-    boton2 = Button(ventana, text="-- Guardar --").place(x=475, y=450)
+    boton1 = Button(ventana, text="<-- Regresar",command=regresar).place(x=100, y=450)
+    boton2 = Button(ventana, text="-- Guardar --",command=regresar).place(x=475, y=450)
+
+def regresar():
+
+    root.deiconify()
+    ventana.iconify()
+
 
 search_button = Button(root, text="Ver Partidos", command=verPartidos).grid(row=2, column=0)
 search1_button = Button(root, text="Agregar Partidos", command=agregarPartidos).grid(row=1, column=0)
