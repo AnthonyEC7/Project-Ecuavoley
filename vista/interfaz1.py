@@ -1,6 +1,3 @@
-
-
-
 from tkinter import *
 root = Tk()
 root.title("RESERVA DE PARTIDOS ECUAVOLEY")
@@ -15,6 +12,10 @@ def verPartidos():
     textfield.insert(INSERT,infile.readlines())
     infile.close()
 
+
+def agregarPartidos():
+    agregar = Toplevel(root)
+    root.iconify()
 
 search_button = Button(root, text="Ver Partidos", command=verPartidos).grid(row=2, column=0)
 textfield = Text(root)
