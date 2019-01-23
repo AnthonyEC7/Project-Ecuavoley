@@ -1,17 +1,15 @@
+from fileinput import filename
 from tkinter import *
 from tkinter import filedialog
 root = Tk()
 root.title("RESERVA DE PARTIDOS ECUAVOLEY")
 ecuavoley = StringVar()
-root.withdraw()
 
 
-def seleccionarUbicacion():
-    root.fileName = filedialog.askopenfilename(filetypes=(("Archivos PNG", " .png"), ("All files", ".*")))
-    print(root.fileName)
+
 
 def verPartidos():
-    infile = open("encuentro.txt", "r")
+    infile = open("PARTIDOS.txt", "r")
     textfield.insert(INSERT,infile.readlines())
     infile.close()
 
@@ -56,9 +54,9 @@ def regresar():
     ventana.iconify()
 
 
-search_button = Button(root, text="Ver Partidos", command=verPartidos).grid(row=1, column=0)
-search1_button = Button(root, text="Agregar Partidos", command=agregarPartidos).grid(row=2, column=0)
-search2_button = Button(root, text="Ubicacion Archivo", command=seleccionarUbicacion).grid(row=3, column=0)
+btnVerPartidos = Button(root, text="Ver Partidos", command=verPartidos).grid(row=1, column=0)
+btnAgregar = Button(root, text="Agregar Partidos", command=agregarPartidos).grid(row=2, column=0)
+
 textfield = Text(root)
 textfield.grid(row=1, column=1, rowspan=2)
 root.mainloop()
