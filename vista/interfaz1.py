@@ -6,12 +6,10 @@ root.title("RESERVA DE PARTIDOS ECUAVOLEY")
 ecuavoley = StringVar()
 
 
-
-
 def verPartidos():
-    infile = open("PARTIDOS.txt", "r")
-    textfield.insert(INSERT,infile.readlines())
-    infile.close()
+    archivo_partidos = open("PARTIDOS.txt", "r")
+    textfield.insert(INSERT,archivo_partidos.readlines())
+    archivo_partidos.close()
 
 def agregarPartidos():
     root.iconify()
