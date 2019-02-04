@@ -19,7 +19,7 @@ from PyQt5.QtWidgets import QMessageBox
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("Ecuavoley-Project 2.0")
         MainWindow.resize(800, 600)
         MainWindow.setAutoFillBackground(False)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -157,6 +157,7 @@ class Ui_MainWindow(object):
         self.btnImagenPantalla.setAutoFillBackground(False)
         self.btnImagenPantalla.setText("")
         icon = QtGui.QIcon()
+        #Insertamos el path para agregar la imagen al window
         icon.addPixmap(QtGui.QPixmap("../../../Downloads/Ecuavoley mi mundo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnImagenPantalla.setIcon(icon)
         self.btnImagenPantalla.setIconSize(QtCore.QSize(1200, 350))
@@ -192,6 +193,8 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(370, 30, 41, 41))
         font = QtGui.QFont()
+
+        #Se coloca un estilo de tipo de letra para la interfaz.
         font.setFamily("Tw Cen MT Condensed Extra Bold")
         font.setPointSize(24)
         self.label_2.setFont(font)
@@ -237,6 +240,8 @@ class Ui_MainWindow(object):
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(200, 130, 72))
         brush.setStyle(QtCore.Qt.SolidPattern)
+
+        #Palette nos permite cambiar el color del texto o ventanas.
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Shadow, brush)
         brush = QtGui.QBrush(QtGui.QColor(120, 120, 120))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -259,6 +264,8 @@ class Ui_MainWindow(object):
         self.btnVerPartidos.setGeometry(QtCore.QRect(290, 540, 51, 41))
         self.btnVerPartidos.setText("")
         icon1 = QtGui.QIcon()
+
+        #Aqui agregamos la imagen que se requiera, colocando el path de la imagen
         icon1.addPixmap(QtGui.QPixmap("../../../Desktop/ecuavoley balon.jpg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.btnVerPartidos.setIcon(icon1)
         self.btnVerPartidos.setIconSize(QtCore.QSize(150, 40))
@@ -274,6 +281,8 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        #Añadimos los items para la modalidad de los partidos
         self.cmbModalidad.addItem("RAQUETA")
         self.cmbModalidad.addItem("PIE CABEZA")
         self.cmbModalidad.addItem("GANCHO TECNICO")
@@ -282,7 +291,10 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        #Ventana Principal del Proyecto
+        MainWindow.setWindowTitle(_translate("MainWindow", "Project Ecuavoley 2.0"))
+
+        #Variables (labels,textfields,pushbuttons)
         self.lblMonto.setText(_translate("MainWindow", "Monto:"))
         self.lblModalidad.setText(_translate("MainWindow", "Modalidad:"))
         self.lblJugador1.setText(_translate("MainWindow", "Jugador 1"))
@@ -296,48 +308,66 @@ class Ui_MainWindow(object):
         self.lblJugador1_T2.setText(_translate("MainWindow", "Jugador 1"))
         self.btnGuardar.setText(_translate("MainWindow", "Registrar  ✔"))
 
+
+        #Eventos de los pushbuttons (btnVerPartidos y Guardar)
         self.btnVerPartidos.clicked.connect(self.datosPartido)
         self.btnGuardar.clicked.connect(self.guardar)
 
+
+        #Creacion de variables para poder llamar a ventanas
+        #de validacion de datos escritos incorrectamente.
         self.equipo1=Dialog()
         self.equipo2=Validacion()
         self.monto=ValidacionMonto()
         self.ingreso=IngresoCorrecto()
 
+    #Metodo que permite desplegar la informacion de los partidos en el txtPartidos
     def datosPartido(self):
-            arch = open("PARTIDOS.txt", "r")
-            lec = arch.readlines()
+
+            arch = open("PARTIDOS.txt", "r") #Abrir un archivo
+            lec = arch.readlines() # Leer todas las lineas del archivo "PARTIDOS.txt"
             guardar = ""
+
+            #Ciclo for que permite almacenar la informacion del archivo .txt para desplegar en pantalla
             for line in lec:
                 guardar += line + "\n"
-            self.txtPartidos.setText(guardar)
-            arch.close()
 
+            self.txtPartidos.setText(guardar) #Aqui seteamos la variable txt por la informacion guardada
+            arch.close() #Cerramos el archivo txt abierto.
+
+
+    #Metodo que sirve para registrar partidos y verificar si existen errores para registrar un partido.
     def guardar(self):
         validar=1
-        print(validar)
+
+        #Es conveniente utilizar un try - except por cualquier error
+        #que pueda surgir en la transformacion o captura de datos.
+
         try:
 
          if(self.txtJugador1.toPlainText()=="" and self.txtJugador2.toPlainText()=="" and self.txtJugador3.toPlainText()==""):
-            self.equipo1.exec_()
+            self.equipo1.exec_()  #Se muestra una ventana por el error cometido
             validar=0
          if (self.txtJugador1_T2.toPlainText() == "" and self.txtJugador2_T2.toPlainText() == "" and self.txtJugador3_T2.toPlainText() == ""):
-          self.equipo2.exec_()
+          self.equipo2.exec_() #Se muestra una ventana por el error cometido
           validar=0
 
          monto=int(self.txtMonto.toPlainText())
 
          if(monto<0):
-             self.monto.exec_()
+             self.monto.exec_()  #Se muestra una ventana por el error cometido
              validar=0
              print("Menor")
          else:
              print("Mayor")
         except:
-             self.monto.exec_()
+             self.monto.exec_() #Se muestra una ventana por el error cometido
              validar = 0
-             pass
 
+
+        #Verificamos si anteriormente se cometió algun error en el ingreso de datos
+        #si la variable es 1, fue correcto el ingreso y se procederá a registrar
+        #caso contrario enviará mensajes de error donde el usuario cometió la equivocacion.
         if(validar==1):
             archivo_partidos = open("PARTIDOS.txt", "a")
             archivo_partidos.write(
@@ -356,6 +386,9 @@ class Ui_MainWindow(object):
             archivo_partidos.close()
             self.ingreso.exec_()
 
+            #self.nombrevariable.exec_() nos permite llamar a otra ventana y mostrar en pantalla
+            #los mensajes respectivos para cada caso.
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -363,5 +396,5 @@ if __name__ == "__main__":
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_()) #Culminacion de la aplicacion.
 
