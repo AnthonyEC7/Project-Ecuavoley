@@ -296,7 +296,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Project Ecuavoley 2.0"))
 
         #Variables (labels,textfields,pushbuttons)
-        self.lblMonto.setText(_translate("MainWindow", "Monto: $$"))
+        self.lblMonto.setText(_translate("MainWindow", "Monto: $"))
         self.lblModalidad.setText(_translate("MainWindow", "Modalidad:"))
         self.lblJugador1.setText(_translate("MainWindow", "Jugador 1"))
         self.label.setText(_translate("MainWindow", "Equipo 1"))
@@ -325,7 +325,7 @@ class Ui_MainWindow(object):
     #Metodo que permite desplegar la informacion de los partidos en el txtPartidos
     def datosPartido(self):
 
-            arch = open(r"C:\Users\user\Desktop\Ecuavoley\PARTIDOS.txt", "r") #Abrir un archivo
+            arch = open(r"C:\Users\user\Desktop\Ecuavoley\partidos.txt", "r") #Abrir un archivo
             lec = arch.readlines() # Leer todas las lineas del archivo "PARTIDOS.txt"
             guardar = ""
 
@@ -372,7 +372,7 @@ class Ui_MainWindow(object):
 
         #try:
         if(validar==1):
-            archivo_partidos = open(r"C:\Users\user\Desktop\Ecuavoley\PARTIDOS.txt", "a")
+            archivo_partidos = open(r"C:\Users\user\Desktop\Ecuavoley\partidos.txt", "a")
             archivo_partidos.write(
                 "PARTIDO-->    MODALIDAD: " + self.cmbModalidad.currentText() + "\t\t\tHora:" + time.strftime(
                     "%X") + "\n")
