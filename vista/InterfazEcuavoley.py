@@ -14,6 +14,7 @@ from vista.ValidacionEquipo2 import Validacion
 from vista.ValidarMonto import ValidacionMonto
 from vista.Ingresocorrecto import IngresoCorrecto
 import time
+import os.path as path
 from PyQt5.QtWidgets import QMessageBox
 
 
@@ -295,7 +296,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Project Ecuavoley 2.0"))
 
         #Variables (labels,textfields,pushbuttons)
-        self.lblMonto.setText(_translate("MainWindow", "Monto:"))
+        self.lblMonto.setText(_translate("MainWindow", "Monto: $$"))
         self.lblModalidad.setText(_translate("MainWindow", "Modalidad:"))
         self.lblJugador1.setText(_translate("MainWindow", "Jugador 1"))
         self.label.setText(_translate("MainWindow", "Equipo 1"))
@@ -324,7 +325,7 @@ class Ui_MainWindow(object):
     #Metodo que permite desplegar la informacion de los partidos en el txtPartidos
     def datosPartido(self):
 
-            arch = open("PARTIDOS.txt", "r") #Abrir un archivo
+            arch = open(r"C:\Users\user\Desktop\Ecuavoley\PARTIDOS.txt", "r") #Abrir un archivo
             lec = arch.readlines() # Leer todas las lineas del archivo "PARTIDOS.txt"
             guardar = ""
 
@@ -368,8 +369,10 @@ class Ui_MainWindow(object):
         #Verificamos si anteriormente se cometió algun error en el ingreso de datos
         #si la variable es 1, fue correcto el ingreso y se procederá a registrar
         #caso contrario enviará mensajes de error donde el usuario cometió la equivocacion.
+
+        #try:
         if(validar==1):
-            archivo_partidos = open("PARTIDOS.txt", "a")
+            archivo_partidos = open(r"C:\Users\user\Desktop\Ecuavoley\PARTIDOS.txt", "a")
             archivo_partidos.write(
                 "PARTIDO-->    MODALIDAD: " + self.cmbModalidad.currentText() + "\t\t\tHora:" + time.strftime(
                     "%X") + "\n")
@@ -384,8 +387,78 @@ class Ui_MainWindow(object):
             archivo_partidos.write(
                 "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n")
             archivo_partidos.close()
-            self.ingreso.exec_()
 
+
+            #Verificamos si el archivo existe para guardar la informacion de la ganancia
+            # respectiva para la cancha
+
+            # "r" se coloca debio a que la lectura del path se pone sin formato
+            # debido a esto nos ayuda evitando errores.
+            if path.exists(r"C:\Users\user\Desktop\Ecuavoley\ganancias.txt"):
+
+                registro = open(r"C:\Users\user\Desktop\Ecuavoley\ganancias.txt", "r")
+                val = registro.readlines()
+
+                for line in val:  #Con el ciclo for obtenemos el valor que se
+                    valor = line  #encontraba en el archivo
+
+
+                registro.close() # cerramos el archivo
+
+                #abrimos el archivo en modo escritura para guardar el nuevo valor
+                registro = open(r"C:\Users\user\Desktop\Ecuavoley\ganancias.txt", "w")
+                porce = float(self.txtMonto.toPlainText())*.10
+                nuevo_valor = float(float(valor) + (porce/2))
+                registro.write(str(nuevo_valor))
+
+                registro.close()  # cerramos el archivo
+
+            else:
+                #En caso de que el archivo no exista, se lo crea y se escribe
+                #un valor 0 para empezar a generar las ganancias.
+                registro = open(r"C:\Users\user\Desktop\Ecuavoley\ganancias.txt", "w")
+                registro.write("0") #escribimos el valor 0 en el archivo
+                registro.close()  # cerramos el archivo
+
+                #abrimos el archivo en modo de lectura
+                registro = open(r"C:\Users\user\Desktop\Ecuavoley\ganancias.txt", "r")
+                val = registro.readlines()
+
+                for line in val:
+                    valor = line #guardamos en una variable el valor del archivo
+                registro.close()  # cerramos el archivo
+
+                # abrimos el archivo en modo escritura para actualizar el nuevo valor.
+                registro = open(r"C:\Users\user\Desktop\Ecuavoley\ganancias.txt", "w")
+                porce = float(self.txtMonto.toPlainText()) * .10 # calculamos el porcentaje de ganancia
+
+                #EL PORCENTAJE PUEDE VARIAR DEPENDIENDO COMO SE MANEJE LA GANANCIA DE LA CANCHA
+                #EN ESTE CASO SE APLICA EL 10% DEL MONTO A JUGARSE
+                #DEL 10% SE REPARTE LA MITAD (PARA EL JUEZ Y LA CANCHA)
+                #EL VALOR QUE SE REGISTRA ES UNICAMENTE EL DE LA CANCHA, PORQUE NOS
+                #INTERESA SABER CUANTO GANÓ LA CANCHA
+
+                nuevo_valor = float(float(valor) + (porce / 2))
+                registro.write(str(nuevo_valor))
+
+                registro.close()  # cerramos el archivo
+
+
+
+            #Seteo de los txt para un el ingreso de un nuevo registro
+            #asi el usuario no tiene que borrar los campos
+            self.txtMonto.setText("")
+            self.txtJugador1.setText("")
+            self.txtJugador2.setText("")
+            self.txtJugador3.setText("")
+            self.txtJugador1_T2.setText("")
+            self.txtJugador2_T2.setText("")
+            self.txtJugador3_T2.setText("")
+
+            #Se muestra un mensaje de ingreso exitoso del partido.
+            self.ingreso.exec_()
+          #except:
+            #print("Error, al actualizar contabilidad.txt")
             #self.nombrevariable.exec_() nos permite llamar a otra ventana y mostrar en pantalla
             #los mensajes respectivos para cada caso.
 
