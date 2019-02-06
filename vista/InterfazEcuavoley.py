@@ -15,7 +15,7 @@ from vista.ValidarMonto import ValidacionMonto
 from vista.Ingresocorrecto import IngresoCorrecto
 import time
 import os.path as path
-from PyQt5.QtWidgets import QMessageBox
+
 
 
 class Ui_MainWindow(object):
@@ -349,6 +349,7 @@ class Ui_MainWindow(object):
          if(self.txtJugador1.toPlainText()=="" and self.txtJugador2.toPlainText()=="" and self.txtJugador3.toPlainText()==""):
             self.equipo1.exec_()  #Se muestra una ventana por el error cometido
             validar=0
+
          if (self.txtJugador1_T2.toPlainText() == "" and self.txtJugador2_T2.toPlainText() == "" and self.txtJugador3_T2.toPlainText() == ""):
           self.equipo2.exec_() #Se muestra una ventana por el error cometido
           validar=0
